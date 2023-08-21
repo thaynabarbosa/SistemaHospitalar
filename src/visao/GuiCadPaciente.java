@@ -1,4 +1,3 @@
-
 package visao;
 
 import dao.ConvenioDAO;
@@ -6,6 +5,7 @@ import dao.PacienteDAO;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import jdk.internal.agent.Agent;
 
 import modelo.Convenio;
 import modelo.Paciente;
@@ -99,7 +99,7 @@ public class GuiCadPaciente extends javax.swing.JInternalFrame {
         jLayeredPane1.add(jlTelefone);
         jlTelefone.setBounds(40, 180, 50, 30);
 
-        jlEmail1.setText("E-mal");
+        jlEmail1.setText("E-mail");
         jLayeredPane1.add(jlEmail1);
         jlEmail1.setBounds(40, 220, 90, 30);
         jLayeredPane1.add(jtEmail1);
@@ -163,49 +163,63 @@ public class GuiCadPaciente extends javax.swing.JInternalFrame {
 
     private void cadastrar() {
         try {
-
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
             Paciente pac = new Paciente();
 
-            // Atribuindo valores aos atributos do Paciente com base nos campos preenchidos pelo usuário na tela
-            pac.setNome(jtNome.getText());
-            pac.setEndereco(jtEndereco.getText());
-            pac.setDataNascimento(sdf.parse(jtDataNasc.getText()));
-            pac.setTelefone(jtTelefone.getText());
-            pac.setCpf(jtCpf.getText());
-            pac.setRg(jtRG.getText());
+            String nome = jtNome.getText();
+            String cpf = jtCpf.getText();
+            String dataNasc = jtDataNasc.getText();
+            String endereco = jtEndereco.getText();
+            String telefone = jtTelefone.getText();
+
+            if (nome.isEmpty() || cpf.isEmpty() || dataNasc.isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Os campos nome completo, CPF, data de nascimento, endereço e telefone devem ser preenchidos");
+            } else {
+
+                if (!nome.isEmpty() && !cpf.isEmpty() && !dataNasc.isEmpty() && !endereco.isEmpty() && !telefone.isEmpty()) {
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+                    // Atribuindo valores aos atributos do Paciente com base nos campos preenchidos pelo usuário na tela
+                    pac.setNome(jtNome.getText());
+                    pac.setEndereco(jtEndereco.getText());
+                    pac.setDataNascimento(sdf.parse(jtDataNasc.getText()));
+                    pac.setTelefone(jtTelefone.getText());
+                    // pac.setEmail(jtEmail1.getText());
+                    pac.setCpf(jtCpf.getText());
+                    pac.setRg(jtRG.getText());
 
             // Verificando se um convênio foi selecionado no JComboBox
             if (!(jcConvenio.getSelectedIndex() == 0)) {
 
-                // Obtendo o nome do convênio selecionado pelo usuário
-                String conv = jcConvenio.getSelectedItem().toString();
+                    // Obtendo o nome do convênio selecionado pelo usuário
+                    String conv = jcConvenio.getSelectedItem().toString();
 
-                // Criando objeto ConvenioDAO para buscar o convênio no banco de dados
-                ConvenioDAO convDAO = new ConvenioDAO();
+                    // Criando objeto ConvenioDAO para buscar o convênio no banco de dados
+                    ConvenioDAO convDAO = new ConvenioDAO();
 
-                // Buscando o convênio no banco de dados com base no nome selecionado pelo usuário
-                Convenio convenio = convDAO.buscarConvenioFiltro(conv);
+                    // Buscando o convênio no banco de dados com base no nome selecionado pelo usuário
+                    Convenio convenio = convDAO.buscarConvenioFiltro(conv);
 
-                // Atribuindo o ID do convênio ao paciente
-                pac.setConvenio(convenio.getIdConvenio());
+                    // Atribuindo o ID do convênio ao paciente
+                    pac.setConvenio(convenio.getIdConvenio());
 
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "Selecione um produto");
+                        "Selecione um convênio");
             } // fecha else
 
-           // Criando objeto PacienteDAO para cadastrar o paciente no banco de dados
-            PacienteDAO pacDAO = new PacienteDAO();
-            pacDAO.cadastrarPaciente(pac);
+                    // Criando objeto PacienteDAO para cadastrar o paciente no banco de dados
+                    PacienteDAO pacDAO = new PacienteDAO();
+                    pacDAO.cadastrarPaciente(pac);
 
-            // Mensagem de sucesso
-            JOptionPane.showMessageDialog(this, "Paciente cadastrado com sucesso!");
+                    // Mensagem de sucesso
+                    JOptionPane.showMessageDialog(this, "Paciente cadastrado com sucesso!");
+                } // fecha if
 
+            }//fecha else
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
-                    "ERRO! " + e.getMessage());
+                    "Erro ao cadastrar o paciente");
         } // fecha catch
 
     }// fecha método
@@ -215,6 +229,11 @@ public class GuiCadPaciente extends javax.swing.JInternalFrame {
         jtNome.setText("");
         jtEndereco.setText("");
         jtCpf.setText("");
+        jtRG.setText("");
+        jtTelefone.setText("");
+        jtEmail1.setText("");
+        jtDataNasc.setText("");
+        jcConvenio.setSelectedItem("-Selecione-");
     }// fecha método
 
     
