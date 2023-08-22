@@ -184,7 +184,6 @@ public class GuiCadPaciente extends javax.swing.JInternalFrame {
                     pac.setEndereco(jtEndereco.getText());
                     pac.setDataNascimento(sdf.parse(jtDataNasc.getText()));
                     pac.setTelefone(jtTelefone.getText());
-                    // pac.setEmail(jtEmail1.getText());
                     pac.setCpf(jtCpf.getText());
                     pac.setRg(jtRG.getText());
 
@@ -214,6 +213,7 @@ public class GuiCadPaciente extends javax.swing.JInternalFrame {
 
                     // Mensagem de sucesso
                     JOptionPane.showMessageDialog(this, "Paciente cadastrado com sucesso!");
+                    limpar();
                 } // fecha if
 
             }//fecha else
@@ -223,8 +223,8 @@ public class GuiCadPaciente extends javax.swing.JInternalFrame {
         } // fecha catch
 
     }// fecha método
-
     //apaga valores dos campos
+
     private void limpar() {
         jtNome.setText("");
         jtEndereco.setText("");
@@ -236,7 +236,6 @@ public class GuiCadPaciente extends javax.swing.JInternalFrame {
         jcConvenio.setSelectedItem("-Selecione-");
     }// fecha método
 
-    
     // metodo para preencher o combo box com os produtos cadastrados no banco de dados
     private void preencherCombo() {
         try {
@@ -274,7 +273,7 @@ public class GuiCadPaciente extends javax.swing.JInternalFrame {
 
     private void jbCadastrar1ActionPerformed(java.awt.event.ActionEvent evt) {
         cadastrar();
-        limpar();
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

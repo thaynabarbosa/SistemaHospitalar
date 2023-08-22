@@ -148,6 +148,7 @@ public class GuiJTableBuscaPaciente extends javax.swing.JInternalFrame {
         /* Para limpar a tabela temos que setar o número de
          linhas para zero no default table model */
         dtm.setNumRows(0);
+        
     }//fecha método
 
     /* Método responsável por popular novos dados na tabela. */
@@ -165,7 +166,7 @@ public class GuiJTableBuscaPaciente extends javax.swing.JInternalFrame {
 
             /* Limpando qualquer dado existente 
          na tabela */
-            limparTabela();
+          //  limparTabela();
 
             /* For que preenche o modelo de tabela (dtm) buscando 
          dados do ArrayList chamado p. */
@@ -206,7 +207,7 @@ public class GuiJTableBuscaPaciente extends javax.swing.JInternalFrame {
                 if (pesquisa.equals("Código Paciente")) {
                     query = "where ID_PACIENTE = " + jtFiltro.getText() + "";
                 } else if (pesquisa.equals("CPF")) {
-                    query = "where CPF = '" + jtFiltro.getText() + "'";
+                    query = "where CPF like '%" + jtFiltro.getText() + "%'";
                 } else {
                     query = "where NOME like '%" + jtFiltro.getText() + "%'";
                 }
@@ -249,6 +250,7 @@ public class GuiJTableBuscaPaciente extends javax.swing.JInternalFrame {
 
     private void jbLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimparActionPerformed
         limparTabela();
+        jtFiltro.setText("");
     }//GEN-LAST:event_jbLimparActionPerformed
 
     private void jtFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtFiltroKeyReleased
